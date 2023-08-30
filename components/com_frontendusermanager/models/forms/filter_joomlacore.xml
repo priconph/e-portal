@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+
+        <field name="name_username_search" type="text" label="COM_USERS_FILTER_SEARCH_DESC" class="js-stools-search-string" translate="1" />
+
+		<field name="builtin-block" type="list" label="COM_FRONTENDUSERMANAGER_FILTER_BUILTIN_BLOCK" >
+			<option value=""> -- </option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="builtin-registerDate"
+			type="hepta.customdaterange"
+			label="COM_FRONTENDUSERMANAGER_FILTER_REGISTER_DATE_LABEL"
+			hint="COM_FRONTENDUSERMANAGER_FILTER_REGISTER_DATE_HINT"
+			ranges="today,yesterday,pastweek,pastmonth"
+			/>
+		<field
+			name="builtin-lastvisitDate"
+			type="hepta.customdaterange"
+			label="COM_FRONTENDUSERMANAGER_FILTER_LAST_VISIT_DATE_LABEL"
+			hint="COM_FRONTENDUSERMANAGER_FILTER_LAST_VISIT_DATE_HINT"
+			ranges="today,yesterday,pastweek,pastmonth"
+			/>
+
+    </fields>
+</form>

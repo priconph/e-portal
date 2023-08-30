@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.3" type="plugin" group="system" method="upgrade">
+  <name>PLG_LIMITLOGINATTEMPTS</name>
+  <author>Jeyam Team</author>
+  <creationDate>May 2016</creationDate>
+  <copyright>Copyright (C) 2016 JeyamTemplates. All rights reserved.</copyright>
+  <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+  <authorEmail>support@jeyamtemplates.com</authorEmail>
+  <authorUrl>http://www.jeyamtemplates.com/</authorUrl>
+  <version>1.0.0</version>
+  <description>PLG_LIMITLOGINATTEMPTS_DESCRIPTION</description>
+  <files>
+    <filename plugin="limitloginattempts">limitloginattempts.php</filename>
+    <filename>index.html</filename>
+    <folder>language</folder>
+    <folder>installer</folder>
+    <folder>field</folder>
+  </files>
+  <install>
+    <sql>
+      <file driver="mysql" charset="utf8">installer/install.sql</file>
+    </sql>
+  </install>
+  <update>
+    <sql>
+      <file driver="mysql" charset="utf8">installer/update.sql</file>
+    </sql>
+  </update>
+  <uninstall>
+    <sql>
+      <file driver="mysql" charset="utf8">installer/uninstall.sql</file>
+    </sql>
+  </uninstall>
+  <config>
+    <fields name="params">
+      <fieldset name="settings">
+        <field name="activated_on" type="list" default="both" label="PLG_LIMITLOGINATTEMPTS_ACTIATED_ON_LABEL" description="PLG_LIMITLOGINATTEMPTS_ACTIATED_ON_DESC">
+          <option value="frontend">PLG_LIMITLOGINATTEMPTS_ACTIATED_ON_FRONTEND</option>
+          <option value="backend">PLG_LIMITLOGINATTEMPTS_ACTIATED_ON_BACKEND</option>
+          <option value="both">PLG_LIMITLOGINATTEMPTS_ACTIATED_ON_BOTH</option>
+        </field>
+        <field name="allowed_retries" type="text" default="4" label="PLG_LIMITLOGINATTEMPTS_ALLOWED_RETRIES_LABEL" description="PLG_LIMITLOGINATTEMPTS_ALLOWED_RETRIES_DESC"/>
+        <field name="lockout_duration" type="text" default="20" label="PLG_LIMITLOGINATTEMPTS_MINUTES_LOCKOUT_LABEL" description="PLG_LIMITLOGINATTEMPTS_MINUTES_LOCKOUT_DESC"/>
+        <field name="allowed_lockouts" type="text" default="4" label="PLG_LIMITLOGINATTEMPTS_MAXIMUM_LOCKOUTS_LABEL" description="PLG_LIMITLOGINATTEMPTS_MAXIMUM_LOCKOUTS_DESC"/>
+        <field name="long_duration" type="text" default="24" label="PLG_LIMITLOGINATTEMPTS_LONG_DURATION_LABEL" description="PLG_LIMITLOGINATTEMPTS_LONG_DURATION_DESC"/>
+        <field name="reset_retries" type="text" default="12" label="PLG_LIMITLOGINATTEMPTS_RESET_RETRIES_LABEL" description="PLG_LIMITLOGINATTEMPTS_RESET_RETRIES_DESC"/>
+        <field name="ip_address_type" type="list" default="0" label="PLG_LIMITLOGINATTEMPTS_IP_ADDRESS_TYPE" description="PLG_LIMITLOGINATTEMPTS_IP_ADDRESS_TYPEDESC">
+          <option value="1">PLG_LIMITLOGINATTEMPTS_IP_FORWARDED</option>
+          <option value="0">PLG_LIMITLOGINATTEMPTS_IP_REMOTE</option>
+        </field>
+        <field name="email_lockouts" class="btn-group radio" type="radio" default="1" label="PLG_LIMITLOGINATTEMPTS_EMAIL_LOCKOUTS_LABEL" description="PLG_LIMITLOGINATTEMPTS_EMAIL_LOCKOUTS_DESC">
+          <option value="0">JNO</option>
+          <option value="1">JYES</option>
+        </field>
+      </fieldset>
+      <fieldset name="lockouts" addfieldpath="/plugins/system/limitloginattempts/field">
+	  <field name="lockout" type="lockout" />
+	  </fieldset>
+      <fieldset name="whitelist">
+        <field name="whitelist_ip" type="textarea" label="PLG_LIMITLOGINATTEMPTS_WHITELIST_IP_ADDRESS_LABEL" description="PLG_LIMITLOGINATTEMPTS_WHITELIST_IP_ADDRESS_DESC"/>
+        <field name="blacklist_ip" type="textarea" label="PLG_LIMITLOGINATTEMPTS_BLACKLIST_IP_ADDRESS_LABEL" description="PLG_LIMITLOGINATTEMPTS_BLACKLIST_IP_ADDRESS_DESC"/>
+      </fieldset>
+    </fields>
+  </config>
+</extension>

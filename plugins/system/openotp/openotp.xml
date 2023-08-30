@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.2.3" type="plugin" group="system">
+    <name>System - OpenOTP</name>
+    <author>RCDevs SA</author>
+    <creationDate>Decembre 2016</creationDate>
+    <copyright>(C) 2010-2016 RCDevs. All rights reserved.</copyright>
+    <license>GNU General Public License version 2</license>
+    <authorEmail>info@rcdevs.com</authorEmail>
+    <authorUrl>www.rcdevs.com</authorUrl>
+    <version>1.2.3</version>
+    <description>RCDevs OpenOTP System plugin, OpenOTP Authentication plugin must be installed and enabled</description>
+    <files>
+    	<filename plugin="openotp">openotp.php</filename>
+		<filename>index.html</filename>
+		<filename>openotp_banner.png</filename>
+		<filename>openotp_closebtn.png</filename>
+    </files>    
+</extension>

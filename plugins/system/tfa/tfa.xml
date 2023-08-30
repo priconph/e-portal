@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>PLG_TWO_FACTOR_AUTHENTICATION</name>
+	<author>Team ReadyBytes</author>
+	<creationDate>May 2013</creationDate>
+	<copyright>Copyright (C) 2013 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>support+2fa@readybytes.in</authorEmail>
+	<scriptfile>install.script.php</scriptfile>
+	<version>2.3</version>
+	<description>PLG_TWO_FACTOR_AUTHENTICATION_DESC</description>
+	<files>
+		<filename plugin="tfa">tfa.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>install.script.php</filename>
+		<folder>forms</folder>
+		<folder>fields</folder>
+		<folder>lib</folder>
+		<folder>tmpl</folder>
+	</files>
+	
+	<languages>
+		<language tag="en-GB">languages/en-GB.plg_system_tfa.ini</language>
+		<language tag="fr-FR">languages/fr-FR.plg_system_tfa.ini</language>
+        <language tag="it-IT">languages/fr-FR.plg_system_tfa.ini</language>
+	</languages>
+	
+	<config>
+		<fields name="params">
+				<fieldset 
+					name="basic" 
+					label="Configuration"
+				>		
+					<field
+						name="applicable"	type="radio"
+						description="TFA security available for specific area."		label="Applicable"	
+						default='10'
+						>
+						<option value='10'>Back-End</option>
+						<option value='20'>Front-end</option>
+						<option value='30'>Back-End + Front-end</option>
+					</field>
+					
+					<field
+						name="backup_mail"	type="radio"
+						description="Its just utilize backup-utility. It will send backup-code to user email address. The emailed backup-code is not that secure, because it is not 'something that you have', as the two factor authentication stipulates.(Thanks to Julian)"		
+						label="Back-up On Mail"	
+						default='20'
+						>
+						<option value='10'>No need to send</option>
+						<option value='20'>Email Backup-Code to user</option>
+					</field>
+					
+					<field
+                          name="redirect"	
+                          type="hidden"  
+                          description=""		
+                          label="Redirect URL"
+                          default="index.php"
+                    />
+					
+				</fieldset>
+			</fields>
+	</config>
+</extension>

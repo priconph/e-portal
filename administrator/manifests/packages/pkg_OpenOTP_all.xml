@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="package" version="1.2.3" method="upgrade">
+	<name>OpenOTP Authentication</name>
+	<packagename>OpenOTP_all</packagename>
+	<creationDate>decembre 2016</creationDate>
+	<packager>RCDevs SA</packager>
+    <author>RCDevs SA</author>
+    <authorEmail>info@rcdevs.com</authorEmail>
+    <authorUrl>www.rcdevs.com</authorUrl>	
+	<packagerurl>www.rcdevs.com</packagerurl>	
+    <copyright>(C) 2010-2016 RCDevs. All rights reserved.</copyright>
+    <license>GNU General Public License version 2</license>
+    <version>1.2.3</version>
+    <description>RCDevs OpenOTP authentication plugin, and RCDevs OpenOTP system plugin must be both installed and enabled</description>
+	
+  <files>
+    <file type="plugin" id="openotp_authentication" group="system">plg_authentication_OpenOTP_j2.x-3.x.zip</file>
+    <file type="plugin" id="openotp_system" group="content">plg_system_OpenOTP_j2.x-3.x.zip</file>
+  </files>
+  
+</extension>

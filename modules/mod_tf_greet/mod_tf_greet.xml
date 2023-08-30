@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3" client="site" method="upgrade">
+    <name>TF Greet</name>
+    <author>Tech Fry</author>
+    <creationDate>February 2018</creationDate>
+    <copyright>(c) Tech Fry, All rights reserved</copyright>
+    <license>GNU General Public License V2 or later</license>
+    <authorEmail>mail@techfry.com</authorEmail>
+	<authorUrl>https://www.techfry.com</authorUrl>
+    <version>1.0.1</version>
+    <description>Joomla module to display logged in user information on the website</description>
+    <files>
+        <filename module="mod_tf_greet">mod_tf_greet.php</filename>
+        <filename>mod_tf_greet.xml</filename>
+        <filename>helper.php</filename>
+        <folder>tmpl</folder>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="greetMessage" 
+                        type="text" 
+                        default="" 
+                        label="Greeting Message" 
+                        description=""
+                        filter="raw" />
+                        
+                <field name="dispId" 
+                       type="radio" 
+                       default="0" 
+                       label="Display User Id" 
+                       description="" 
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                
+                <field name="dispName" 
+                       type="radio" 
+                       default="0" 
+                       label="Display Name" 
+                       description="" 
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                
+                <field name="dispUsername" 
+                       type="radio" 
+                       default="0" 
+                       label="Display Username" 
+                       description="" 
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                
+                <field name="dispEmail" 
+                       type="radio" 
+                       default="0" 
+                       label="Display Email" 
+                       description="" 
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                
+                <field name="dispRegisterDate" 
+                       type="radio" 
+                       default="0" 
+                       label="Display Register Date" 
+                       description="" 
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                
+                <field name="dispLastvisitDate" 
+                       type="radio" 
+                       default="0" 
+                       label="Display Last Visit Date" 
+                       description="" 
+                       class="btn-group btn-group-yesno">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                
+            </fieldset>
+        </fields>
+    </config>
+    <updateservers>
+        <server type="extension" name="TF Greet Update Site">http://www.labs.techfry.com/joomla/mod_tf_greet/extension.xml</server>
+ </updateservers>
+</extension>

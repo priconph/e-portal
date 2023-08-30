@@ -1,0 +1,15 @@
+<html>
+<head>
+	<?php
+  		require_once('../dist/includes.php');
+	?>
+</head>
+<?php 
+	if($_SESSION['s_username']==''){
+		require_once('./new_profile.php');
+	}
+	else{
+		require_once('./old_profile.php');
+	}
+?>
+</html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.2.3" type="plugin" group="authentication">
+    <name>Authentication - OpenOTP</name>
+    <author>RCDevs SA</author>
+    <creationDate>Decembre 2016</creationDate>
+    <copyright>(C) 2010-2016 RCDevs. All rights reserved.</copyright>
+    <license>GNU General Public License version 2</license>
+    <authorEmail>info@rcdevs.com</authorEmail>
+    <authorUrl>www.rcdevs.com</authorUrl>
+    <version>1.2.3</version>
+    <description>RCDevs OpenOTP authentication plugin, OpenOTP system plugin must be installed and enabled</description>
+    <files>
+    	<filename plugin="openotp">openotp.php</filename>
+		<filename>openotp.class.php</filename>
+		<filename>index.html</filename>
+		<filename>openotp.wsdl</filename>
+    </files>
+    
+    <config>
+    	<fields name="params">
+			<fieldset name="basic">
+				<field name="openotp_scope" type="list" default="2"
+					description="Plugin Scope"
+					label="Plugin Scope"
+				>
+					<option value="0">Site</option>
+					<option value="1">Administration</option>
+					<option value="2">Both</option>
+				</field>
+
+				<field name="openotp_server_url" type="text"
+					   description="OpenOTP Server URL (Required)"
+					   label="Server URL"
+					   default="http://localhost:8080/openotp/"
+					   size="40" />
+				<field name="openotp_client_id" type="text"
+					   description="Client ID (Required)"
+					   label="Client ID"
+					   default="Joomla"
+					   size="20" />
+				<field name="openotp_default_domain" type="text"
+					   description="Default Domain"
+					   label="Default Domain"
+					   size="40" />
+				<field name="openotp_user_settings" type="text"
+					   description="User Settings"
+					   label="User Settings"
+					   size="40" />
+				<field name="openotp_proxy_host" type="text"
+					   description="HTTP Proxy Host"
+					   label="Proxy Host"
+					   size="20" />
+				<field name="openotp_proxy_port" type="text"
+					   description="HTTP Proxy Port"
+					   label="Proxy Port"
+					   size="20" />
+				<field name="openotp_proxy_username" type="text"
+					   description="HTTP Proxy Username"
+					   label="Proxy Username"
+					   size="20" />
+				<field name="openotp_proxy_password" type="text"
+					   description="HTTP Proxy Password"
+					   label="Proxy Password"
+					   size="20" />
+			</fieldset>
+		</fields>
+    </config>
+</extension>

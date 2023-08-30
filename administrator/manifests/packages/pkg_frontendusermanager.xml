@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3.4" method="upgrade">
+	<name>FrontendUserManager Package</name>
+	<packagename>FrontendUserManager</packagename>
+	<version>0.0.6</version>
+	<url>http://extensions.hepta.es</url>
+	<creationDate>2017-01-10</creationDate>
+	<author>Carlos Cámara</author>
+	<copyright>(C) 2016-2017 Hepta Technologies SL</copyright>
+	<authorEmail></authorEmail>
+	<authorUrl>http://extensions.hepta.es</authorUrl>
+	<packager>Hepta Technologies SL</packager>
+	<packagerurl>http://extensions.hepta.es</packagerurl>
+	<description>PKG_FRONTENDUSERMANAGER_DESCRIPTION</description>
+	<updateservers>
+		<server type="extension" priority="2" name="Frontend User Manager">https://extensions.hepta.es/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=2&amp;dummy.xml</server>
+	</updateservers>
+	
+	<scriptfile>installpkg.php</scriptfile>
+	<files>
+		<file type="component" id="com_frontendusermanager" >com_frontendusermanager.zip</file>
+		<file type="library" id="lib_heptaformfields">lib_hepta_formfields.zip</file>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.pkg_FrontendUserManager.sys.ini</language>
+	</languages>
+</extension>
