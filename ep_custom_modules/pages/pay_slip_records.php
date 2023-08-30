@@ -20,7 +20,7 @@
 	  <div class="card-header" style="height:55px;">
 		<div class="row form-inline" id="div_data_filter">
 			<?php
-				if($_SESSION['s_username']=='K010' || $_SESSION['s_username']=='Q108' || $_SESSION['s_username']=='P121' || $_SESSION['s_username']=='Q113' ){
+				if($_SESSION['s_username']=='K010' || $_SESSION['s_username']=='Q108' || $_SESSION['s_username']=='P121' ){
 					echo '<div class="col-auto">';
 					echo '	<div class="form-group mx-sm-1 mb-2">';
 					echo '		<label for="slt_employee_number">Staff:&nbsp;</label>';
