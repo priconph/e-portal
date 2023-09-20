@@ -298,7 +298,7 @@ function generate_pay_slip_pdf(file_type,emp_no,action_child){
             $('<input />').attr('type', 'hidden').attr('name', "spn_bonus_rice_subsidy").attr('value', '0.00').appendTo('#iframeform');
             $('<input />').attr('type', 'hidden').attr('name', "spn_13th_month_pay").attr('value', '0.00').appendTo('#iframeform');
 
-			$('<input />').attr('type', 'hidden').attr('name', "spn_allowance").attr('value', numeral(data['regular_pay']).format('0,0.00')).appendTo('#iframeform');
+			$('<input />').attr('type', 'hidden').attr('name', "spn_allowance").attr('value', numeral(data['allowance']).format('0,0.00')).appendTo('#iframeform');
             $('<input />').attr('type', 'hidden').attr('name', "spn_other_earnings").attr('value', '0.00').appendTo('#iframeform');
 			$('<input />').attr('type', 'hidden').attr('name', "spn_less_absences_undertime").attr('value', numeral(data['abs_ut_amnt']).format('0,0.00')).appendTo('#iframeform');
 			$('<input />').attr('type', 'hidden').attr('name', "spn_gross_pay").attr('value', numeral(data['gross_pay']).format('0,0.00')).appendTo('#iframeform');
