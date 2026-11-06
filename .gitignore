@@ -1,0 +1,46 @@
+# Documents
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.xlsm
+*.csv
+*.ppt
+*.pptx
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.z
+
+# Database dumps / backups
+*.sql
+*.bak
+*.BAK
+*.dump
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+~$*
+
+# Media / large binaries
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.psd
+*.iso
+*.exe
+
+# OS / IDE
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/

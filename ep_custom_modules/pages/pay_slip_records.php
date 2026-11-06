@@ -4,32 +4,51 @@
   		require_once('../dist/includes.php');
   		
   		/* 04-25-2023 Administrative */
-		// require_once('../dist/handler/query.php');
-		// $user_ip = $_SERVER['REMOTE_ADDR'];
-		// $valid_ip = db_ep::getInstance()->get_valid_ip($user_ip);
+		require_once('../dist/handler/query.php');
+		$user_ip = $_SERVER['REMOTE_ADDR'];
+		$valid_ip = db_ep::getInstance()->get_valid_ip($user_ip);
+		
+		
+		// echo $_SESSION['s_username'];
 		// if(!$valid_ip){
-		// 	// echo "<br><br><br><br><br><br><br><br><center><h1>PLEASE 🤸 WAIT 🤸 BESHY 🤸</h1></center> ";
-		// 	echo "<br><br><br><br><br><br><br><br><center><h1>Maintenance Mode 🤸🤸🤸</h1></center> ";
-		// 	exit;
+			// echo "<br><br><br><br><br><br><br><br><center><h1>MAINTENANCE MODE</h1></center> ";
+			// exit;
 		// }
+
 		
 	?>
 </head>
+
+<!-- 12212024 by Nessa
+1. Add new pay period (with 'All') viewing, display, download
+2. Affected file: pay_slip_records.php, pay_slip_records.js and handler 
+-->
+
 <body style="overflow:auto;">
+	<div class="row form-inline" id="div_data_filter">
+		<?php
+			if($_SESSION['s_username']=='K010' || $_SESSION['s_username']=='Q121' || $_SESSION['s_username']=='P121' || $_SESSION['s_username']=='U085' || $_SESSION['s_username']=='R144'){
+			// if($_SESSION['s_username']=='K010' || $_SESSION['s_username']=='P121' || $_SESSION['s_username']=='S181'){
+				echo '	<div class="col-auto">';
+				echo '	<div class="form-group mx-sm-1 mb-1">';
+				echo '		<label for="slt_data_end_data">All Pay Period:&nbsp;</label>';
+				echo '	    <select class="form-control" id="slt_pay_period_all" style="border-top-right-radius: 0 0;border-bottom-right-radius: 0 0;min-width:100px;"></select>'; 
+				echo '	    <button type="button" id="btn_save_as_pdf_all" class="btn btn-secondary" style="border-top-left-radius: 0 0;border-bottom-left-radius: 0 0;"><i class="fa fa-download"></i> Download</button>'; 
+				echo '	</div>';
+				echo '	</div>';
+				echo '	<div class="col-col-auto">';
+				echo '	<div class="form-group mx-sm-1 mb-1">';
+				echo '		<label for="slt_employee_number">Employee:&nbsp;</label>';
+				echo '	    <input class="form-control" id="slt_employee_number" placeholder="Employee Number" style="border-top-right-radius: 0 0;border-bottom-right-radius: 0 0;">'; 
+				echo '	</div>';
+				echo '	</div>';
+			}
+		?>
+	</div>
 	<div class="card" style="margin-right:1px;">
 	  <div class="card-header" style="height:55px;">
 		<div class="row form-inline" id="div_data_filter">
-			<?php
-				if($_SESSION['s_username']=='K010' || $_SESSION['s_username']=='Q108' || $_SESSION['s_username']=='P121' ){
-					echo '<div class="col-auto">';
-					echo '	<div class="form-group mx-sm-1 mb-2">';
-					echo '		<label for="slt_employee_number">Staff:&nbsp;</label>';
-					echo '	    <input class="form-control" id="slt_employee_number" placeholder="Employee Number" style="border-top-right-radius: 0 0;border-bottom-right-radius: 0 0;">'; 
-					echo '		<button type="button" class="btn btn-secondary" style="border-top-left-radius: 0 0;border-bottom-left-radius: 0 0;">Go</button>'; 
-					echo '	</div>';
-					echo '</div>';
-				}
-			?>
+			
 			<div class="col-auto">
 				<div class="form-group mx-sm-1 mb-2">
 	        		<label for="slt_data_end_data">Pay Period:&nbsp;</label>
@@ -42,25 +61,27 @@
 					</div>
 				</div>
 			</div>
+
 		</div>
 	  </div>
+
 	  <div class="card-body">
 			<div class="row">
 				    <?php
-						if($_SESSION['s_username']=='K010'){
+						// if($_SESSION['s_username']=='K010'){
 							echo '<div id="cont_pay_slip_no_data" class="col-xs-12 mx-3" style="display:none;width:100%;">';
 							echo '	<div class="alert alert-info alert-dismissable fade show" role="alert">';
 							echo '	  Data not found.&nbsp;';
 							echo '	</div>';
 							echo '</div>';					
-						}
-						else{
-							echo '<div id="cont_pay_slip_no_data" class="col-xs-12 mx-3" style="display:none;width:100%;">';
-							echo '	<div class="alert alert-info alert-dismissable fade show" role="alert">';
-							echo '	  Data not found.&nbsp;';
-							echo '	</div>';
-							echo '</div>';						
-						}
+						// }
+						// else{
+						// 	echo '<div id="cont_pay_slip_no_data" class="col-xs-12 mx-3" style="display:none;width:100%;">';
+						// 	echo '	<div class="alert alert-info alert-dismissable fade show" role="alert">';
+						// 	echo '	  Data not found.&nbsp;';
+						// 	echo '	</div>';
+						// 	echo '</div>';						
+						// }
 					?>			
 			</div>
 			<div class="row">
@@ -68,6 +89,7 @@
 				    <table style="display:inline-block;">
 				        <tbody style="font-size:70%;">
 				            <tr style="font-size:107%;">
+								
 				                <td style="text-align:left;padding-right:5px;padding-left:5px;width:120px;font-weight:bold;;">REGULAR PAY:</td>
 				                <td style="text-align:left;padding-right:5px;padding-left:5px;width150px;"></td>
 				                <td style="text-align:right;padding-right:35px;border-right:1px solid black;padding-left:5px;font-weight:bold;"><span id="spn_regular_pay"></span></td>
@@ -87,7 +109,7 @@
 				            </tr>
 				            <tr>
 				                <td style="text-align:left;padding-right:5px;padding-left:5px;"></td>
-				                <td style="text-align:left;padding-right:5px;padding-left:5px;">SL/VL/BL/SD/SDL</td>
+				                <td style="text-align:left;padding-right:5px;padding-left:5px;">SL/VL/BL/SD/SDL/BDL</td>
 				                <td style="text-align:right;padding-right:35px;border-right:1px solid black;padding-left:5px;"><span id="spn_sl_vl_bl_sd_sdl"></span></td>
 				                <td style="text-align:left;padding-right:5px;padding-left:35px;">VACATION LEAVE</td>
 				                <td style="text-align:right;padding-right:5px;padding-left:5px;"><span id="spn_vacation_leave"></span></td>
@@ -133,7 +155,7 @@
 				            </tr>
 				            <tr>
 				                <td style="text-align:left;padding-right:5px;padding-left:5px;"></td>
-				                <td style="text-align:left;padding-right:5px;padding-left:5px;">13th MONTH PAY</td>
+				                <td style="text-align:left;padding-right:5px;padding-left:5px;">MONTH PAY</td>
 				                <td style="text-align:right;padding-right:35px;border-right:1px solid black;padding-left:5px;"><span id="spn_13th_month_pay"></span></td>
 				                <td style="text-align:left;padding-right:5px;padding-left:35px;">SUNDAY OT</td>
 				                <td style="text-align:right;padding-right:5px;padding-left:5px;"><span id="spn_sunday_ot"></span></td>
@@ -300,6 +322,7 @@
 	<script type="text/javascript">
 		$('#cont_loading').fadeIn();
 	    load_latest_pay_period('0','0');
+	    load_latest_pay_period_all('0','0');
 	</script>
 </body>
 </html>

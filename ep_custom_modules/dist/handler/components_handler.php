@@ -198,7 +198,7 @@
 			send_email_notif_disabled($username);
 			$remarks = 'login-disabled';
 			fn_save_login_logs($username,8,$remarks);
-			$msg = '<strong>Your account has been disabled. Cantact ISS local 205 to re-activate your account.</strong>';
+			$msg = '<strong>Your account has been disabled. Contact ISS local 205 to re-activate your account.</strong>';
 		}
 
 		$return = array();
@@ -279,7 +279,7 @@
 				$remarks = 'login-disabled';
 				fn_save_login_logs($username,8,$remarks);
 			}
-			$msg = '<strong>Your account has been disabled. Cantact ISS local 205 to re-activate your account.</strong>';
+			$msg = '<strong>Your account has been disabled. Contact ISS local 205 to re-activate your account.</strong>';
 		}
 		$return = array();
 		$return['attempt_count'] = $attempt_count;

@@ -21,54 +21,21 @@ function load_profile(){
 		data 	: data,
 		url 	: handler,
 		success : function(data){
+			// alert(data['EN']);
 
 			$('#btn_user_manual').click(function(){
 				window.open("http://rapid/e-portal/ep_custom_modules/dist/files/USER MANUAL_Complaints&MEMO_2023.pdf", '_blank');
 			});
+
 			//-02092022
 			$('#btn_form_2316').click(function(){
+				window.open("http://systemone/bir/bir_form.php?!="+encodeURIComponent(data['EN']), '_blank');		    	
+		    });
 
-				// if ( 
-				// 	data['EmpNo'] == '4771'||
-				// 	data['EmpNo'] == 'M001'||
-				// 	data['EmpNo'] == '1810'||
-
-				// 	data['EmpNo'] == 'J004'||
-				// 	data['EmpNo'] == 'Q111'||
-				// 	data['EmpNo'] == 'Q004'||
-
-				// 	data['EmpNo'] == '1195'|| 
-				// 	data['EmpNo'] == '1288'|| 
-				// 	data['EmpNo'] == '1436'|| 
-				// 	data['EmpNo'] == '1923'|| 
-				// 	data['EmpNo'] == '1974'|| 
-				// 	data['EmpNo'] == '2055'|| 
-				// 	data['EmpNo'] == '2063'|| 
-				// 	data['EmpNo'] == '2137'|| 
-				// 	data['EmpNo'] == '2364'|| 
-				// 	data['EmpNo'] == '3802'|| 
-				// 	data['EmpNo'] == '4205'|| 
-				// 	data['EmpNo'] == '4743'|| 
-				// 	data['EmpNo'] == '7651'|| 
-				// 	data['EmpNo'] == '7894'|| 
-				// 	data['EmpNo'] == '8909'|| 
-				// 	data['EmpNo'] == 'A279'|| 
-				// 	data['EmpNo'] == 'B101'|| 
-				// 	data['EmpNo'] == 'B158'|| 
-				// 	data['EmpNo'] == 'M011'|| 
-				// 	data['EmpNo'] == 'N010'|| 
-				// 	data['EmpNo'] == 'O088'|| 
-				// 	data['EmpNo'] == 'O103'|| 
-				// 	data['EmpNo'] == 'O104'|| 
-				// 	data['EmpNo'] == 'Q008'|| 
-				// 	data['EmpNo'] == 'R003'
-				// 	){
-				// 	alert('Sorry, your ITR is not yet available. Please call local 222 and look for Ms. Noreen. Thank you!');
-				// }else{
-		    		window.open("http://systemone/bir/bir_form.php?x="+data['EmpNo'], '_blank');
-
-				// }
-		    	
+			/* Added by Nessa 01232025 */
+		    $('#btn_form_pas').click(function(){
+		    	alert('Maintenance mode!');
+				// window.open("http://systemone/pas/pages/report_rater_sheet.php?!="+encodeURIComponent(data['EN']), '_blank');		    	
 		    });
 
 

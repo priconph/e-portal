@@ -26,8 +26,9 @@
 		if(isset($_POST['action']) && !empty($_POST['action'])){
 			switch($_POST['action']){
 				case 'load_attendance_record'		: load_attendance_record(); 		break;
-				// case 'load_latest_pay_period'   	: load_latest_pay_period();     	break;
+				case 'load_latest_pay_period'   	: load_latest_pay_period();     	break;
 				case 'load_latest_pay_period_rapid' : load_latest_pay_period_rapid();   break;
+				case 'load_latest_pay_period_rapid_all' : load_latest_pay_period_rapid_all();   break;
 				case 'load_employee_info'       	: load_employee_info();         	break;
 				case 'load_employee_info_rapid'    	: load_employee_info_rapid();      	break;
 				case 'load_email_address'			: load_email_address();				break;
@@ -37,6 +38,7 @@
 				case 'update_complaint'				: update_complaint();				break;
 				case 'send_to_my_email'				: send_to_my_email(); 				break;
 				case 'send_complaint'				: send_complaint();					break;
+				case 'send_complaint_test'			: send_complaint_test();					break;
 				case 'post_pay_slip_data'			: post_pay_slip_data(); 			break;
 				case 'load_pay_slip_records'		: load_pay_slip_records(); 			break;
 				case 'load_pay_slip_records_data'	: load_pay_slip_records_data(); 	break;
@@ -467,7 +469,7 @@
 		require_once('./query.php');
 
 		if(isset($_POST['action_child'])=='1'&&isset($_POST['emp_no'])!=''){
-			$emp_no = $_POST['emp_no'];			
+			$emp_no = $_POST['emp_no'];
 		}
 		else{
 			$emp_no = $_SESSION['s_username'];
@@ -477,18 +479,66 @@
 		$array_fields 		= array('a.*, b.employee_no');
 		$table 	   			= 'tbl_payroll_info a';
 		$joins				= 'inner join tbl_payroll_info_data b on b.fkid_payroll_info = a.id';
-		$sql_where			= 'WHERE a.date_end >= "'.date('01/01/2022').'" AND b.employee_no="'.$emp_no.'" AND posted="Y" ';
+		$sql_where			= 'WHERE b.employee_no="'.$emp_no.'" AND posted="Y"
+								'; 
+								// 07192024 by Nessa
+								//a.date_end >= "'.date('01/01/2020').'" AND 
+								// AND YEAR(a.date_cut_off)='.date('Y').' 
 		// $sql_where			= 'WHERE a.date_end >= "'.date('01/01/2022').'" AND b.employee_no="'.$emp_no.'" ';
 		$sql_order	 		= 'ORDER BY a.id DESC';
 		$sql_limit 			= '';
 		$result 			= db_rp::getInstance()->select_query($array_fields,$table,$joins,$sql_where,$sql_order,$sql_limit);
 		$ctr 				= 0;		
+		// return $result;
 		while($row = mysqli_fetch_array($result)){
 			$return['id'][$ctr]    			= $row['id'];
 			$return['description'][$ctr]  	= $row['description'];
 			$return['cut_off'][$ctr]  		= $row['cut_off'];
-			$return['date_start'][$ctr]  	= date('F d -',strtotime($row['date_start']));
+			$return['date_start'][$ctr]  	= date('M d -',strtotime($row['date_start']));
 			$return['date_end'][$ctr]  		= date('d, Y',strtotime($row['date_end']));
+			$return['date_cut_off'][$ctr]  	= date('M d, Y',strtotime($row['date_cut_off']));
+			$return['md_cut_off'][$ctr]  	= date('M Y',strtotime($row['date_cut_off']));
+
+			$ctr++;
+		}
+		
+		$return['ctr'] = $ctr;
+		echo json_encode($return);
+	}
+
+	function load_latest_pay_period_rapid_all(){
+		require_once('./query.php');
+
+		if(isset($_POST['action_child'])=='1'&&isset($_POST['emp_no'])!=''){
+			$emp_no = $_POST['emp_no'];
+		}
+		else{
+			$emp_no = $_SESSION['s_username'];
+		}
+
+		$result 			= '';
+		$array_fields 		= array('a.*, b.employee_no');
+		$table 	   			= 'tbl_payroll_info a';
+		$joins				= 'inner join tbl_payroll_info_data b on b.fkid_payroll_info = a.id';
+		$sql_where			= 'WHERE posted="Y"								
+								'; 
+								// 07192024 by Nessa
+								//a.date_end >= "'.date('01/01/2020').'" AND 
+								// AND YEAR(a.date_cut_off)='.date('Y').' 
+		// $sql_where			= 'WHERE a.date_end >= "'.date('01/01/2022').'" AND b.employee_no="'.$emp_no.'" ';
+		$sql_order	 		= 'GROUP BY date_cut_off, description ORDER BY a.id DESC';
+		$sql_limit 			= '';
+		$result 			= db_rp::getInstance()->select_query($array_fields,$table,$joins,$sql_where,$sql_order,$sql_limit);
+		$ctr 				= 0;		
+		// return $result;
+		while($row = mysqli_fetch_array($result)){
+			$return['id'][$ctr]    			= $row['id'];
+			$return['description'][$ctr]  	= $row['description'];
+			$return['cut_off'][$ctr]  		= $row['cut_off'];
+			$return['date_start'][$ctr]  	= date('M d -',strtotime($row['date_start']));
+			$return['date_end'][$ctr]  		= date('d, Y',strtotime($row['date_end']));
+			$return['date_cut_off'][$ctr]  	= date('M d, Y',strtotime($row['date_cut_off']));
+			$return['md_cut_off'][$ctr]  	= date('M Y',strtotime($row['date_cut_off']));
 
 			$ctr++;
 		}
@@ -654,20 +704,22 @@
 		}
 		
 		$pay_period = $_POST['pay_period'];		
-
+		// return $emp_no;
 		$return 			= $_POST;
 		$result 			= '';
-		$array_fields 		= array('a.*, b.id as pid_id, b.*, c.personal_exemption, d.gross_income_ytd, d.forecast_earnings, d.less_ytd_tax_exempt, d.yt_tax_withheld');
+		$array_fields 		= array('a.*, b.id as pid_id, b.*, c.personal_exemption, d.gross_income_ytd, d.forecast_earnings, d.less_ytd_tax_exempt, d.yt_tax_withheld, e.working_days');
 		$table 	   			= 'tbl_payroll_info a';
-		$joins 	   			= 'inner join tbl_payroll_info_data b on b.fkid_payroll_info = a.id
-								inner join tbl_salary_report c on c.employee_no = b.employee_no
-								inner join tbl_annual_tax d on d.emp_no = b.employee_no
+		$joins 	   			= 'left join tbl_payroll_info_data b on b.fkid_payroll_info = a.id
+								left join tbl_salary_report c on c.employee_no = b.employee_no
+								left join tbl_annual_tax d on d.emp_no = b.employee_no
+								inner join tbl_working_days e
 								';
 		$sql_where 			= "WHERE b.employee_no='".$emp_no."' AND a.id ='".$pay_period."' AND a.posted ='Y' ";
 		$sql_order 			= '';
 		$sql_limit 			= '';
 		$result 			= db_rp::getInstance()->select_query($array_fields,$table,$joins,$sql_where,$sql_order,$sql_limit);
 		$ctr                = 0;
+		// print_r(mysqli_fetch_assoc($result));
 		while($row = mysqli_fetch_array($result)){
 			$return['description'][$ctr]	= $row['description'];
 			$return['cut_off'][$ctr]	 	= $row['cut_off'];
@@ -682,9 +734,10 @@
 
 			$return['employee_no'][$ctr]	 	= $row['employee_no'];
 			$return['employee_name'][$ctr]	 	= $row['employee_name'];
+			$return['working_days'][$ctr]	 	= $row['working_days'];
 			
 			if($row['description'] == 1){ // 1-daily, 2-monthly, 4-jsss
-				$return['regular_pay'][$ctr]	 	= $row['regular_pay'] * 13;
+				$return['regular_pay'][$ctr]	 	= $row['regular_pay'] * $row['working_days']; 
 				$return['forecast_earnings'][$ctr]	= $row['forecast_earnings']-$return['regular_pay'][$ctr];
 			}else{
 				$return['regular_pay'][$ctr]	 	= $row['regular_pay'];
@@ -744,14 +797,24 @@
 			$return['sss_premium'][$ctr]		= $row['sss_premium'];
 			$return['ph_premium'][$ctr]			= $row['ph_premium'];
 			$return['pagibig'][$ctr]			= $row['pagibig'];
-			$return['sssl_ssscl_amnt'][$ctr]	= $row['sss_loan']+$row['sss_cal_loan'];
-			$return['pil_picl_amnt'][$ctr]		= $row['pagibig_loan']+$row['pagibig_cal_loan'];
+			// $return['sssl_ssscl_amnt'][$ctr]	= $row['sss_loan']+$row['sss_cal_loan'];
+			$return['sssl_ssscl_amnt'][$ctr]	= $row['sss_loan']+$row['sss_cal_loan']+$row['sss_condonation']; // 09192024 by nessa
+			// $return['pil_picl_amnt'][$ctr]		= $row['pagibig_loan']+$row['pagibig_cal_loan'];
+			$return['pil_picl_amnt'][$ctr]		= $row['pagibig_loan']+$row['pagibig_cal_loan']+$row['pagibig_safe_loan'];
 
 			$return['hipar'][$ctr]				= $row['hipar'];
 			$return['adv_other_deduc'][$ctr]	= $row['adv_other_deduc'];
+			
+			// 05212026 by Nessa
 			$return['tax_adj'][$ctr]			= $row['tax_adj'];
 			$return['with_tax'][$ctr]			= $row['with_tax'];
+
+			// var with_tax = parseFloat(data['with_tax']) + parseFloat(data['tax_adj']);
+
+			$return['with_taxx'][$ctr] = $row['tax_adj'] + $row['with_tax'];
+			
 			$return['net_pay'][$ctr]			= $row['net_pay'];
+			$return['other_earnings'][$ctr]		= $row['other_earnings'];
 
 			$return['personal_exemption'][$ctr]				= $row['personal_exemption'];
 			$return['ytd_gross_income'][$ctr]				= $row['gross_income_ytd']+$row['gross_pay'];
@@ -781,6 +844,42 @@
 
 			}
 
+			/*$result_childxx 			= '';
+			$array_fields_childxx 	= array('other_earnings', 'type_of_earning', 'emp_no');
+			$table_childxx 	   		= 'tbl_taxes';
+			$joins_childxx 	   		= '';
+			$sql_where_childxx 		= 'WHERE emp_no = "S185"';
+			$sql_order_childxx		= '';
+			$sql_limit_childxx 		= '';
+			$result_childxx 			= db_rp::getInstance()->select_query($array_fields_childxx,$table_childxx,$joins_childxx,$sql_where_childxx,$sql_order_childxx,$sql_limit_childxx);
+			$ctr = 0;
+			while($row_childxx = mysqli_fetch_array($result_childxx)){
+				print_r($row_childxx);
+				$oe_adj = 0;
+				 for($i=0; $i< count($row_childxx) ; $i++){
+				 	$oe_adj = $oe_adj + $row_childxx['other_earnings'][$i];
+
+
+				 	if( $row_childxx['type_of_earning'][$i] == 1){ // bonus adj
+                        // $return['b_other_earnings'][$ctr]           = $row_childxx['other_earnings'][$i]; 
+                        $return['b_other_earnings'][$ctr]           = 1; 
+                    }else if ( $row_childxx['type_of_earning'][$i] == 2){ // 13th adj
+                        $return['t_other_earnings'][$ctr]           = 2; 
+                    }else if ( $row_childxx['type_of_earning'][$i] == 3){ // sss prem adj
+                        $return['s_other_earnings'][$ctr]           = 3; 
+                    }else{
+                        $return['other_earnings'][$ctr]           = 0; 
+                    }
+
+				 }
+
+ 			// 	$return['emp_no'][$ctr] 			= $row_childxx['emp_no'];
+				// $return['other_earnings'][$ctr] 	= $$oe_adj;
+				// $return['type_of_earning'][$ctr] 	= $row_childxx['type_of_earning'];
+
+			}*/
+
+			// return count($row_childxx);
 			$ctr++;
 			
 		}
@@ -971,6 +1070,9 @@
 										'rka_complaints.rc_adate',
 										'rka_complaints.rc_approval_remarks',
 										'rka_complaints.rc_approval_status',
+										'rka_complaints.rc_category_type',
+										'rka_complaints.rc_attachment',
+										'rka_complaints.rc_attachment_filename',
 										'rka_users.name',
 										'rka_users.email');
 		$table 	   				= 'rka_complaints';
@@ -992,6 +1094,9 @@
 			$return['email'] 					= $row['email'];
 			$return['rc_approval_remarks'] 		= $row['rc_approval_remarks'];
 			$return['rc_approval_status'] 		= $row['rc_approval_status'];
+			$return['rc_category_type'] 		= $row['rc_category_type'];
+			$return['rc_attachment'] 			= $row['rc_attachment'];
+			$return['rc_attachment_filename'] 	= $row['rc_attachment_filename'];
 		}
 
 		$result 				= '';
@@ -2080,22 +2185,74 @@
 		$result				= "";
 		$table      	 	= "rka_complaints";
 		$array_fields		= array('rc_concern_date','rc_message','rc_username','rc_approver','rc_approval_status');
+		// $array_fields		= array('rc_concern_date','rc_message','rc_username','rc_approver','rc_approval_status', 'rc_category_type', 'rc_attachment');
 		$array_values 		= array(date('Y-m-d',
 										strtotime($return['concern-date'])),
 										$return['message-text'],
 										$_SESSION['s_username'],
 										$return['name_superior'],
-										1);
+										1
+									);
 		$as_target			= 'rc_id';
 		$as_name			= 'rc_id';
 		$result = db_ep::getInstance()->insert_query_return_id($table,$array_fields,$array_values,$as_target,$as_name);
 		if($row = mysqli_fetch_array($result)){
 			$return['sent_message_status'] = send_email_complaint(date('F d, Y',strtotime($return['concern-date'])),$return['message-text'],$row['rc_id']);
 		}
+
+		echo json_encode($return);		
+	}
+
+	function send_complaint_test(){
+		require_once('./query.php');
+		$return				= $_POST;
+		$result				= "";
+		$return['error'] 	= false;
+		$date_today =  date('Y-m-d');
+		if(!($date_today >=  $return['date_start'] && $date_today <= $return['date_end'])){
+			$return['error'] = true;
+			echo json_encode($return);
+			exit();
+
+		}
+		$attachement_file = isset($_FILES['concern_attachment'])?$_FILES['concern_attachment']:'';
+		$date 			= date("Ymdhis");
+		
+	    if( $attachement_file ){
+			$filename = $attachement_file['name'];
+			$complain_attachment_file_name = '_complaint_'.$date.'_'.$filename;
+	    }
+		$table      	 	= "rka_complaints";
+		// $array_fields		= array('rc_concern_date','rc_message','rc_username','rc_approver','rc_approval_status');
+		$array_fields		= array('rc_concern_date','rc_message','rc_username','rc_approver','rc_approval_status', 'rc_category_type', 'rc_attachment', 'rc_attachment_filename');
+		$array_values 		= array(date('Y-m-d',
+										strtotime($return['concern-date'])),
+										$return['message-text'],
+										$_SESSION['s_username'],
+										$return['name_superior'],
+										1,
+										$return['concern_type'],
+										$complain_attachment_file_name,
+										$filename
+									);
+		$as_target			= 'rc_id';
+		$as_name			= 'rc_id';
+		$result = db_ep::getInstance()->insert_query_return_id($table,$array_fields,$array_values,$as_target,$as_name);
+		if($row = mysqli_fetch_array($result)){
+			$return['sent_message_status'] = send_email_complaint(date('F d, Y',strtotime($return['concern-date'])),$return['message-text'],$row['rc_id']);
+		}
+
+		if($result){
+			move_uploaded_file(
+				$attachement_file['tmp_name'],
+				'../uploads/complaint_attachments/' .$complain_attachment_file_name
+			);
+		}
 		echo json_encode($return);		
 	}
 	
 	function send_email_complaint($concern_date,$message,$rc_id){
+		
 		require_once('../../dist/PHPMailer-5.2-stable/PHPMailerAutoload.php');
 		require_once('./query.php');
         require_once('./email_config.php');
@@ -2106,7 +2263,7 @@
 		$table 	   			= 'rka_complaints a';
 		$joins 	   			= 'INNER JOIN rka_users b on b.username = a.rc_username
 								INNER JOIN rka_users c on c.username = a.rc_approver';
-		$sql_where 			= "WHERE a.rc_username = '".$_SESSION['s_username']."'";
+		$sql_where 			= "WHERE a.rc_username = '".$_SESSION['s_username']."' AND a.rc_id = '".$rc_id."'";
 		$sql_order 			= '';
 		$sql_limit 			= '';
 		$result 			= db_ep::getInstance()->select_query($array_fields,$table,$joins,$sql_where,$sql_order,$sql_limit);
@@ -2474,6 +2631,7 @@
 		$mail->addAddress($email_add);
 		$mail->addReplyTo('issinfoservice@pricon.ph', 'Information System Section');
 		$mail->addBCC('jgsulit@pricon.ph');
+		$mail->addBCC('cpagtalunan@pricon.ph');
 		$mail->isHTML(true);
 		$mail->Subject = 'Employee Portal - New Account Notification';
 		
@@ -2555,6 +2713,7 @@
 		$mail->addAddress($email_add);
 		$mail->addReplyTo('issinfoservice@pricon.ph', 'Information System Section');
 		$mail->addBCC('jgsulit@pricon.ph');
+		$mail->addBCC('cpagtalunan@pricon.ph');
 		$mail->isHTML(true);
 		$mail->Subject = 'Employee Portal - Password Reset Notification';
 
@@ -2562,7 +2721,7 @@
 		$body .= '	<h2 style="font-family:arial;font-weight:bold;color:#1F4788;margin-bottom:-20px;">Pricon Microelectronics, Inc.</h2>';
 		$body .= '	<h3 style="font-family:arial;color:#317589;margin-top:-20px;">Employee Portal</h3>';
 		$body .= '	<span style="font-family:arial;">This is a system generated email, please do not reply.</span><br>';
-		$body .= '	<span style="font-family:arial;">If you are not the intended recipient of this email and feels that you have received this in error, please contact <a href="mailto:issinfoservice@pricon.ph">servicerequest@pricon.ph</a>.</span><br><br>';
+		$body .= '	<span style="font-family:arial;">If you are not the intended recipient of this email and feels that you have received this in error, please file a ticket thru RapidX ISS Service Request.</span><br><br>';
 		$body .= '	<span style="font-family:arial;font-weight:bold;">Account Details</span><br>';
 		$body .= '	<table>';
 		$body .= '		<tr>';
@@ -2600,7 +2759,8 @@
 		$array_fields 		= array('*');
 		$table 	   			= 'vw_supervisors';
 		$joins 	   			= '';
-		$sql_where 			= 'WHERE emp_name LIKE "%'.$return['pattern_superior'].'%"';
+		// $sql_where 			= 'WHERE emp_name LIKE "%'.$return['pattern_superior'].'%"';
+		$sql_where 			= 'WHERE emp_name LIKE "%'.$return['pattern_superior'].'%" AND EmpNo <> "'.$_SESSION['s_username'].'"';
 		$sql_order 			= '';
 		$sql_limit 			= '';
 		$result 			= db_hris_web::getInstance()->select_query($array_fields,$table,$joins,$sql_where,$sql_order,$sql_limit);
@@ -2749,6 +2909,9 @@
 										'rka_complaints.rc_adate',
 										'rka_complaints.rc_approval_status',
 										'rka_complaints.rc_approval_remarks',
+										'rka_complaints.rc_category_type',
+										'rka_complaints.rc_attachment',
+										'rka_complaints.rc_attachment_filename',
 										'rka_users.name',
 										'rka_users.email');
 		$table 	   				= 'rka_complaints';
@@ -2770,6 +2933,10 @@
 			$return['email'] 					= $row['email'];
 			$return['rc_approval_status'] 		= $row['rc_approval_status'];
 			$return['rc_approval_remarks'] 		= $row['rc_approval_remarks'];
+
+			$return['rc_category_type'] 		= $row['rc_category_type'];
+			$return['rc_attachment'] 			= $row['rc_attachment'];
+			$return['rc_attachment_filename'] 	= $row['rc_attachment_filename'];
 		}
 
 		$result 				= '';
@@ -3011,7 +3178,7 @@
 		require_once('./query.php');
 
 		$return			= $_POST;
-		$id_mcn 		= $_POST['id_mcn'];
+		// $id_mcn 		= $_POST['id_mcn'];
 		$date 			= date("Y-m-d");
 
 		$memo_file = isset($_FILES['memo_file'])?$_FILES['memo_file']:'';
@@ -3974,6 +4141,13 @@
 			$return['DateHired'] 				= date('F d, Y',strtotime($row['DateHired']));
 			$return['Position'] 				= $row['Position'];
 			$return['EmpNo'] 					= $row['EmpNo'];
+
+			//09072024 by Nessa
+			$string_to_encrypt  				= $row['EmpNo'];
+            $password           				= "passwordsa";
+            $encrypted_string   				= openssl_encrypt($string_to_encrypt,"AES-128-ECB",$password);
+            $return['EN'] 						= $encrypted_string;
+
 			$return['Section'] 					= $row['Section'];
 			$return['DOBirth'] 					= $row['DOBirth'];
 		}
@@ -3996,7 +4170,7 @@
 		$sql_limit 				= '';
 		$result 				= db_hris_web::getInstance()->select_query($array_fields,$table,$joins,$sql_where,$sql_order,$sql_limit);
 		if($row = mysqli_fetch_array($result)){
-			$return['previous_balance_VL'] 		= number_format($row['previous_balance_VL'],1);
+			$return['previous_balance_VL'] 		= number_format($row['previous_balance_VL'],1); //02262025 by NESSA DELETE (int)
 			$return['previous_balance_SL'] 		= number_format($row['previous_balance_SL'],1);
 			$return['credit_VL'] 				= number_format($row['credit_VL'],1);
 			$return['credit_SL'] 				= number_format($row['credit_SL'],1);

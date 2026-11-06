@@ -254,7 +254,7 @@ $html = <<<EOD
                                     <td></td>
                                     <td>
                                     </td>
-                                    <td>3th MONTH PAY
+                                    <td>13th MONTH PAY
                                     </td>
                                     <td style="text-align:right;">
                                     </td>

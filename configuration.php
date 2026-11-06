@@ -36,7 +36,7 @@ class JConfig {
 	public $sendmail = '/usr/sbin/sendmail';
 	public $smtpauth = '1';
 	public $smtpuser = 'issinfoservice@pricon.ph';
-	public $smtppass = 'EYGEKFwlzuDfNufG2DGk';
+	public $smtppass = 'lpip1oGQimJUfARAo2RG';
 	// public $smtphost = 'mail3.pricon.ph';
 	public $smtphost = '192.168.3.244';
 	public $smtpsecure = 'ssl';

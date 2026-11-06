@@ -6,7 +6,7 @@
 ?>
 
 <!-- <script src="../dist/jquery/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script> -->
-<script type="text/javascript" src="../dist/jquery/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="../dist/jquery/jquery-3.3.1.js?n=1"></script>
 <script src="../dist/cdnjs/popper.min.js" crossorigin="anonymous"></script>
 
 <!-- <link rel="stylesheet" href="../dist/bootstrap/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->

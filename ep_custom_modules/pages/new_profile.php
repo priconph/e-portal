@@ -123,8 +123,10 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../dist/js/profile.js?9"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" src="../dist/js/profile.js?n=1">
 		load_profile();
 	</script>
+	<!-- <script type="text/javascript">
+		load_profile();
+	</script> -->
 </body>

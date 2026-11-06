@@ -390,7 +390,7 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../dist/js/payroll_data.js?4"></script>
+	<script type="text/javascript" src="../dist/js/payroll_data.js?4444"></script>
 	<script type="text/javascript">
 		$('#cont_loading').fadeIn();
 		load_pay_slip_records();

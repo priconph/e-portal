@@ -17,6 +17,7 @@
 			  <li class="list-group-item bg-light">
 			  	<button class="btn btn-primary btn-block" id="btn_edit_profile"><i class="fa fa-edit"></i> Edit Profile</button> 	
 			  	<button class="btn btn-primary btn-block" id="btn_form_2316"><i class="fa fa-eye"></i> BIR Form 2316 (ITR)</button>
+			  	<button class="btn btn-primary btn-block" id="btn_form_pas"><i class="fa fa-file-pdf"></i> Performance Appraisal</button><!-- Added by Nessa 01232025 -->
 			  </li>
 			  <li class="list-group-item bg-light" style="height: 250px;">
 			  	<h4 id="usr_name"></h4>

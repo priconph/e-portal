@@ -152,7 +152,7 @@ $(document).ready(function(){
                     $('#mdl_show_employee_information').modal('show');
                     $('#btn_generate_cec').removeClass('disabled');
                     $('#btn_reset_password').removeClass('disabled');
-                    load_loan_information(data['EmpNo']);
+                    // load_loan_information(data['EmpNo']);
                 }
             },
             error   : function(data){
@@ -261,7 +261,7 @@ $(document).ready(function(){
                     $('#mdl_show_employee_information').modal('show');
                     $('#btn_generate_cec').removeClass('disabled');
                     $('#btn_reset_password').removeClass('disabled');
-                    load_loan_information(data['EmpNo']);
+                    // load_loan_information(data['EmpNo']);
                 }
             },
             error   : function(data){
@@ -432,9 +432,8 @@ $(document).ready(function(){
     })
 
     $(document).on("mouseover",'.td_basic_pay', function () {
-        // alert()
         // $(this).css('color','#aaa');
-        //stuff to do on mouseover
+        // stuff to do on mouseover
     });
 });
 
@@ -521,7 +520,7 @@ function load_list_of_users(){
                 // html += '   <td class="td_basic_pay" style="color:transparent;">'+data['BasicPay'][i]+'</td>';
                 // html += '   <td>'+data['AccountNumber'][i]+'</td>';
 
-                html += '   <td>'+data['basic_salary'][i]+'</td>';
+                html += '   <td class="td_basic_pay" style="color:transparent;">'+data['basic_salary'][i]+'</td>';
                 if (data['account_no'][i] == 0){
                     html += '   <td><i>--Not available--</i></td>';
                 }else{
@@ -577,7 +576,7 @@ function load_loan_information(emp_no){
         data        : data,
         url         : handler,
         complete    : function(data){
-            load_pay_slip_history(emp_no);
+            // load_pay_slip_history(emp_no);
         },
         success : function(data){
             var html = '';

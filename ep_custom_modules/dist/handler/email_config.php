@@ -6,7 +6,7 @@
 	$mail->Host = 'mail3.pricon.ph';  						// Specify main and backup SMTP servers
 	$mail->SMTPAuth = true;                              	// Enable SMTP authentication
 	$mail->Username = 'issinfoservice@pricon.ph';                 	// SMTP username
-	$mail->Password = 'EYGEKFwlzuDfNufG2DGk';                           	// SMTP password
+	$mail->Password = '6nJWqJWLq5Fvns4jK0v2';                           	// SMTP password
 	$mail->SMTPSecure = 'ssl';                            		// Enable TLS encryption, `ssl` also accepted
 	$mail->Port = 465;
 ?>
